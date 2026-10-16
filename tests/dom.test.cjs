@@ -3,12 +3,22 @@ const {JSDOM,VirtualConsole}=require(process.env.JSDOM_PATH||'jsdom');
 const root=path.resolve(__dirname,'../dist'),errors=[];
 const v=new VirtualConsole();v.on('jsdomError',e=>errors.push(e));
 const dom=new JSDOM(fs.readFileSync(root+'/index.html','utf8'),{url:'https://example.test/',runScripts:'outside-only',virtualConsole:v});
-const w=dom.window;w.scrollTo=()=>{};w.eval(['engine.js','content.js','app.js'].map(f=>fs.readFileSync(root+'/'+f,'utf8')).join('\n'));
+const w=dom.window;w.scrollTo=()=>{};w.eval(['engine.js','content.js','figure6.js','navigation.js','app.js'].map(f=>fs.readFileSync(root+'/'+f,'utf8')).join('\n'));
 const $=s=>w.document.querySelector(s);const input=(s,v)=>{$(s).value=v;$(s).dispatchEvent(new w.Event('input',{bubbles:true}));};
 function page(id){w.history.replaceState({},'',`#${id}`);w.dispatchEvent(new w.HashChangeEvent('hashchange'));assert.ok($('#main').textContent.length>400);}
 for(const id of ['intro','physical','timing','link','arbitration','protocols','pec','address','arp','signals','compatibility','verification','reference'])page(id);
 page('physical');$('#drain-a').click();assert.match($('#drain-result').textContent,/LOW/);input('#resistor','4400');assert.match($('#rc-result').textContent,/ns/);
-page('timing');$('#timing-fail').click();assert.match($('#timing-explain').textContent,/FAIL/);$('#timing-reset').click();assert.match($('#timing-explain').textContent,/PASS/);
+page('timing');
+assert.equal($('#chapter-select').value,'timing');
+$('#menu').click();assert.equal($('#chapter-dialog').open,true);assert.equal(w.document.querySelectorAll('#toc-list a').length,13);$('#toc-close').click();assert.equal($('#chapter-dialog').open,false);
+for(const p of w.SMB.timing.slice(0,10)){const g=w.document.querySelector('[data-measure="'+p.id+'"]');g.dispatchEvent(new w.Event('pointerenter'));assert.ok($('#f6-detail').textContent.includes(p.id));assert.equal(g.getAttribute('aria-pressed'),'true');}
+$('#f6-speed').selectedIndex=2;$('#f6-speed').dispatchEvent(new w.Event('change'));
+w.document.querySelector('[data-pick="tR"]').click();assert.match($('#f6-detail').textContent,/120 ns/);
+$('#f6-to-lab').click();assert.equal($('#parameter').value,'tR');assert.equal($('#speed').selectedIndex,2);
+$('#f6-zoom').value='150';$('#f6-zoom').dispatchEvent(new w.Event('input'));assert.equal($('#f6-canvas').style.width,'150%');
+fs.writeFileSync('/tmp/smbus-figure6-redraw.svg',$('#f6-canvas').innerHTML);
+$('#theme').click();assert.equal(w.document.body.classList.contains('dark'),true);page('physical');assert.equal(w.document.body.classList.contains('dark'),true);page('timing');
+$('#timing-fail').click();assert.match($('#timing-explain').textContent,/FAIL/);$('#timing-reset').click();assert.match($('#timing-explain').textContent,/PASS/);
 for(const v of ['400 kHz','1 MHz']){$('#speed').value=v;$('#speed').dispatchEvent(new w.Event('change'));assert.match($('#timing-explain').textContent,/PASS/);}
 page('protocols');for(const p of w.SMB.protocols){input('#proto',p.id);assert.equal($('#p-error').textContent,'');$('#p-next').click();assert.ok($('#p-wave svg'));}input('#proto','blockRead');input('#p-count','0');assert.equal($('#p-error').textContent,'');input('#p-count','255');assert.equal($('#p-error').textContent,'');input('#p-addr','GG');assert.match($('#p-error').textContent,/주소/);
 page('pec');$('#pec-flip').click();assert.match($('#pec-result').textContent,/MISMATCH/);input('#pec-bytes','garbage');assert.match($('#pec-result').textContent,/입력/);

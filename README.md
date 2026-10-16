@@ -7,6 +7,13 @@ SMBus 3.3 전체 장과 부록을 학습하는 한국어 인터랙티브 웹앱�
 - 기준: [SMBus 3.3, 12 May 2024](https://www.smbus.org/specs/SMBus_3_3_20240512.pdf)
 - 학습 구성 참고: [DigitalBook](https://digitalbook.euiyun.com/). 코드를 복제하지 않았습니다.
 
+## 1.1 업데이트
+
+- 항상 보이는 이전/다음 장과 챕터 선택 메뉴, 검색 가능한 전체 목차 팝업
+- 원문 Figure 6을 재구성한 전체 파형: 10개 파라미터 hover/touch/focus 설명, 측정 시작·끝, 3개 속도 클래스 min/max
+- 확대·수평 스크롤, 파라미터 버튼, 아래 수치 실험 연결
+- 다크 모드 및 기존 학습 기록 유지
+
 ## 내용
 
 13개 챕터: 도입 배경·역사, 배선·DC, AC 타이밍, 비트·ACK, 중재·시간 제한, 전체 프로토콜, PEC, 주소·UDID, ARP, 알림·Suspend, I²C 호환성, 검증 체크리스트, 원문 지도·용어·출처.
@@ -37,6 +44,8 @@ python3 -m http.server 8080 --directory dist
 
 - `dist/engine.js`: CRC, protocol generator, timing facts, arbitration, RC 계산
 - `dist/content.js`: 한국어 학습 설명, 절·페이지 출처, 36개 원문 범위 매핑
+- `dist/figure6.js`: 원문 파형 재구성과 파라미터 검사
+- `dist/navigation.js`: 고정 챕터 이동과 목차 대화상자
 - `dist/app.js`: 탐색, SVG 파형, 실험, localStorage
 - `dist/style.css`: 반응형·다크 테마
 - `tests/engine.test.cjs`: 표준 CRC check vector, 전체 형식, Block 경계, timing 경계
