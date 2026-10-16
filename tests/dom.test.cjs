@@ -17,6 +17,14 @@ w.document.querySelector('[data-pick="tR"]').click();assert.match($('#f6-detail'
 $('#f6-to-lab').click();assert.equal($('#parameter').value,'tR');assert.equal($('#speed').selectedIndex,2);
 $('#f6-zoom').value='150';$('#f6-zoom').dispatchEvent(new w.Event('input'));assert.equal($('#f6-canvas').style.width,'150%');
 fs.writeFileSync('/tmp/smbus-figure6-redraw.svg',$('#f6-canvas').innerHTML);
+$('#f6-original').click();assert.equal($('#f6-original-dialog').open,true);
+assert.equal($('#f6-original').tagName,'BUTTON');assert.equal($('#f6-original-image').getAttribute('src'),'assets/smbus-3.3-figure6.png');
+assert.ok(fs.existsSync(root+'/'+$('#f6-original-image').getAttribute('src')));assert.equal($('#f6-original-dialog a'),null);
+$('#f6-original-zoom').click();assert.equal($('#f6-original-zoom').getAttribute('aria-pressed'),'true');assert.ok($('#f6-original-viewport').classList.contains('zoomed'));
+$('#f6-original-close').click();assert.equal($('#f6-original-dialog').open,false);assert.equal(w.document.activeElement,$('#f6-original'));
+$('#f6-original').click();assert.equal($('#f6-original-zoom').getAttribute('aria-pressed'),'false');
+$('#f6-original-dialog').dispatchEvent(new w.KeyboardEvent('keydown',{key:'Escape'}));assert.equal($('#f6-original-dialog').open,false);
+
 $('#theme').click();assert.equal(w.document.body.classList.contains('dark'),true);page('physical');assert.equal(w.document.body.classList.contains('dark'),true);page('timing');
 $('#timing-fail').click();assert.match($('#timing-explain').textContent,/FAIL/);$('#timing-reset').click();assert.match($('#timing-explain').textContent,/PASS/);
 for(const v of ['400 kHz','1 MHz']){$('#speed').value=v;$('#speed').dispatchEvent(new w.Event('change'));assert.match($('#timing-explain').textContent,/PASS/);}
