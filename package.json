@@ -1,0 +1,1 @@
+{"name":"smbus-interactive-lab","version":"1.0.0","private":true,"description":"Korean SMBus 3.3 interactive specification textbook","scripts":{"test":"node tests/engine.test.cjs && node tests/dom.test.cjs","test:engine":"node tests/engine.test.cjs"},"devDependencies":{"jsdom":"30.1.2"},"engines":{"node":">=24"}}
