@@ -3,7 +3,7 @@ const {JSDOM,VirtualConsole}=require(process.env.JSDOM_PATH||'jsdom');
 const root=path.resolve(__dirname,'../dist'),errors=[];
 const v=new VirtualConsole();v.on('jsdomError',e=>errors.push(e));
 const dom=new JSDOM(fs.readFileSync(root+'/index.html','utf8'),{url:'https://example.test/',runScripts:'outside-only',virtualConsole:v});
-const w=dom.window;w.scrollTo=()=>{};w.eval(['engine.js','content.js','figure6.js','navigation.js','app.js'].map(f=>fs.readFileSync(root+'/'+f,'utf8')).join('\n'));
+const w=dom.window;w.scrollTo=()=>{};w.eval(['engine.js','content.js','figure6-vector.js','figure6.js','navigation.js','app.js'].map(f=>fs.readFileSync(root+'/'+f,'utf8')).join('\n'));
 const $=s=>w.document.querySelector(s);const input=(s,v)=>{$(s).value=v;$(s).dispatchEvent(new w.Event('input',{bubbles:true}));};
 function page(id){w.history.replaceState({},'',`#${id}`);w.dispatchEvent(new w.HashChangeEvent('hashchange'));assert.ok($('#main').textContent.length>400);}
 for(const id of ['intro','physical','timing','link','arbitration','protocols','pec','address','arp','signals','compatibility','verification','reference'])page(id);
@@ -12,14 +12,20 @@ page('timing');
 assert.equal($('#chapter-select').value,'timing');
 assert.equal(w.document.querySelectorAll('.f6-target.selected').length,0);
 $('#menu').click();assert.equal($('#chapter-dialog').open,true);assert.equal(w.document.querySelectorAll('#toc-list a').length,13);$('#toc-close').click();assert.equal($('#chapter-dialog').open,false);
-for(const p of w.SMB.timing.slice(0,10)){const g=w.document.querySelector('[data-measure="'+p.id+'"]');g.dispatchEvent(new w.Event('pointerenter'));assert.ok($('#f6-detail').textContent.includes(p.id));assert.equal(g.getAttribute('aria-pressed'),'true');}
+for(const p of w.SMB.timing.slice(0,10)){const g=w.document.querySelector('[data-measure="'+p.id+'"]');g.dispatchEvent(new w.Event('pointerenter'));assert.ok($('#f6-detail').textContent.includes(p.id));assert.equal(g.getAttribute('aria-pressed'),'true');assert.equal(w.document.querySelectorAll('[data-range][visibility=visible]').length,1);assert.equal(w.document.querySelector('[data-range][visibility=visible]').dataset.range,p.id);}
 $('#f6-speed').selectedIndex=2;$('#f6-speed').dispatchEvent(new w.Event('change'));
 w.document.querySelector('[data-pick="tR"]').click();assert.match($('#f6-detail').textContent,/120 ns/);
 $('#f6-to-lab').click();assert.equal($('#parameter').value,'tR');assert.equal($('#speed').selectedIndex,2);
 $('#f6-zoom').value='150';$('#f6-zoom').dispatchEvent(new w.Event('input'));assert.equal($('#f6-canvas').style.width,'150%');
-assert.equal($('#f6-source-image').getAttribute('href'),$('#f6-original-image').getAttribute('src'));
+assert.equal($('#f6-canvas image'),null);
+assert.equal(w.document.querySelectorAll('#f6-canvas [data-source-path]').length,139);
+assert.equal(w.document.querySelectorAll('#f6-canvas use').length,159);
+for(const glyph of w.document.querySelectorAll('#f6-canvas use'))assert.ok(w.document.getElementById(glyph.getAttribute('xlink:href').slice(1)),'Every original glyph must resolve');
 assert.equal($('#f6-canvas svg').getAttribute('viewBox'),'63 70.5 667.5 192');
-assert.equal(w.document.querySelectorAll('#f6-canvas path, #f6-canvas text').length,0);
+assert.ok(w.document.querySelectorAll('#f6-canvas .f6-clk').length>10);assert.ok(w.document.querySelectorAll('#f6-canvas .f6-dat').length>10);
+assert.equal(w.document.querySelectorAll('[data-range][visibility=visible]').length,1);assert.equal(w.document.querySelector('[data-range][visibility=visible]').dataset.range,'tR');
+assert.ok(w.document.querySelectorAll('[data-part="tR"].f6-active').length>5);
+$('#f6-effects').click();assert.equal($('#f6-effects').getAttribute('aria-pressed'),'false');assert.ok($('.figure6-wrap').classList.contains('f6-quiet'));
 fs.writeFileSync('/tmp/smbus-figure6-overlay.svg',$('#f6-canvas').innerHTML);
 $('#f6-original').click();assert.equal($('#f6-original-dialog').open,true);
 assert.equal($('#f6-original').tagName,'BUTTON');assert.equal($('#f6-original-image').getAttribute('src'),'assets/smbus-3.3-figure6.png');

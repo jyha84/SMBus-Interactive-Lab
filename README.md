@@ -10,7 +10,7 @@ SMBus 3.3 전체 장과 부록을 학습하는 한국어 인터랙티브 웹앱�
 ## 1.1 업데이트
 
 - 항상 보이는 이전/다음 장과 챕터 선택 메뉴, 검색 가능한 전체 목차 팝업
-- 원문 Figure 6 이미지 그대로의 전체 파형: 10개 파라미터 hover/touch/focus 설명, 측정 시작·끝, 3개 속도 클래스 min/max
+- 원문 Figure 6의 경로·글자 윤곽을 직접 추출한 벡터 파형: 10개 파라미터 hover/touch/focus 설명, 측정 시작·끝, 3개 속도 클래스 min/max
 - 확대·수평 스크롤, 파라미터 버튼, 아래 수치 실험 연결
 - 다크 모드 및 기존 학습 기록 유지
 
@@ -44,7 +44,7 @@ python3 -m http.server 8080 --directory dist
 
 - `dist/engine.js`: CRC, protocol generator, timing facts, arbitration, RC 계산
 - `dist/content.js`: 한국어 학습 설명, 절·페이지 출처, 36개 원문 범위 매핑
-- `dist/figure6.js`: 원문 Figure 6 이미지 위 투명 상호작용 영역과 파라미터 검사
+- `dist/figure6.js`: 원문 좌표의 벡터 파형, 선택 구간 강조와 파라미터 검사
 - `dist/navigation.js`: 고정 챕터 이동과 목차 대화상자
 - `dist/app.js`: 탐색, SVG 파형, 실험, localStorage
 - `dist/style.css`: 반응형·다크 테마
@@ -75,3 +75,9 @@ Node.js 24+ 권장. `npm install`은 DOM 테스트용 jsdom만 설치합니다. 
 노트·체크리스트·진도는 현재 origin의 localStorage에만 저장되며 서버 전송/기기 동기화는 없습니다. 브라우저 데이터 삭제 시 사라지므로 검증 장에서 JSON으로 내보낼 수 있습니다.
 
 규격 PDF는 저장소에 재배포하지 않고 공식 문서로 링크합니다. 원 규격의 권리는 System Management Interface Forum, Inc.에 있습니다. 역사 보충은 공식 SMBus 3.1 / 3.2 / 3.3.1 Appendix D를 확인했습니다. 새로운 학습 코드·해설·SVG는 본 프로젝트에서 작성했습니다.
+
+### Figure 6 벡터 재생성
+
+`python scripts/extract-figure6.py /path/to/SMBus_3_3_20240512.pdf` (PyMuPDF 필요).
+공식 PDF p.18의 139개 도형 경로와 159개 글자 윤곽을 추출합니다. 원래 경로, 변환 행렬, 선 두께 및 점선 패턴을 보존하고 색상만 CSS에서 지정합니다. 배포 앱은 Python이나 원본 PDF 다운로드 없이 동작합니다. `dist/figure6-vector.js`와 `dist/assets/smbus-3.3-figure6.svg`는 생성 결과입니다.
+선택한 측정 구간·경계·원문 화살표를 강조하며, 빛 효과 끄기와 reduced-motion 설정을 지원합니다. 원문 PNG 비교 팝업도 유지합니다.
