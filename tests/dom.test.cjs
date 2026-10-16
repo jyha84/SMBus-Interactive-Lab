@@ -10,13 +10,17 @@ for(const id of ['intro','physical','timing','link','arbitration','protocols','p
 page('physical');$('#drain-a').click();assert.match($('#drain-result').textContent,/LOW/);input('#resistor','4400');assert.match($('#rc-result').textContent,/ns/);
 page('timing');
 assert.equal($('#chapter-select').value,'timing');
+assert.equal(w.document.querySelectorAll('.f6-target.selected').length,0);
 $('#menu').click();assert.equal($('#chapter-dialog').open,true);assert.equal(w.document.querySelectorAll('#toc-list a').length,13);$('#toc-close').click();assert.equal($('#chapter-dialog').open,false);
 for(const p of w.SMB.timing.slice(0,10)){const g=w.document.querySelector('[data-measure="'+p.id+'"]');g.dispatchEvent(new w.Event('pointerenter'));assert.ok($('#f6-detail').textContent.includes(p.id));assert.equal(g.getAttribute('aria-pressed'),'true');}
 $('#f6-speed').selectedIndex=2;$('#f6-speed').dispatchEvent(new w.Event('change'));
 w.document.querySelector('[data-pick="tR"]').click();assert.match($('#f6-detail').textContent,/120 ns/);
 $('#f6-to-lab').click();assert.equal($('#parameter').value,'tR');assert.equal($('#speed').selectedIndex,2);
 $('#f6-zoom').value='150';$('#f6-zoom').dispatchEvent(new w.Event('input'));assert.equal($('#f6-canvas').style.width,'150%');
-fs.writeFileSync('/tmp/smbus-figure6-redraw.svg',$('#f6-canvas').innerHTML);
+assert.equal($('#f6-source-image').getAttribute('href'),$('#f6-original-image').getAttribute('src'));
+assert.equal($('#f6-canvas svg').getAttribute('viewBox'),'63 70.5 667.5 192');
+assert.equal(w.document.querySelectorAll('#f6-canvas path, #f6-canvas text').length,0);
+fs.writeFileSync('/tmp/smbus-figure6-overlay.svg',$('#f6-canvas').innerHTML);
 $('#f6-original').click();assert.equal($('#f6-original-dialog').open,true);
 assert.equal($('#f6-original').tagName,'BUTTON');assert.equal($('#f6-original-image').getAttribute('src'),'assets/smbus-3.3-figure6.png');
 assert.ok(fs.existsSync(root+'/'+$('#f6-original-image').getAttribute('src')));assert.equal($('#f6-original-dialog a'),null);
