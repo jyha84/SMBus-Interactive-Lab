@@ -11,6 +11,7 @@ SMBus 3.3 전체 장과 부록을 학습하는 한국어 인터랙티브 웹앱�
 
 - 항상 보이는 이전/다음 장과 챕터 선택 메뉴, 검색 가능한 전체 목차 팝업
 - 원문 Figure 6의 경로·글자 윤곽을 직접 추출한 벡터 파형: 10개 파라미터 hover/touch/focus 설명, 측정 시작·끝, 3개 속도 클래스 min/max
+- Figure 6의 S/P 글자와 DAT 전이에 START·STOP·Repeated START 정의, 관련 타이밍 및 4장 바로가기
 - 확대·수평 스크롤, 파라미터 버튼, 아래 수치 실험 연결
 - 다크 모드 및 기존 학습 기록 유지
 
@@ -81,3 +82,13 @@ Node.js 24+ 권장. `npm install`은 DOM 테스트용 jsdom만 설치합니다. 
 `python scripts/extract-figure6.py /path/to/SMBus_3_3_20240512.pdf` (PyMuPDF 필요).
 공식 PDF p.18의 139개 도형 경로와 159개 글자 윤곽을 추출합니다. 원래 경로, 변환 행렬, 선 두께 및 점선 패턴을 보존하고 색상만 CSS에서 지정합니다. 배포 앱은 Python이나 원본 PDF 다운로드 없이 동작합니다. `dist/figure6-vector.js`와 `dist/assets/smbus-3.3-figure6.svg`는 생성 결과입니다.
 선택한 측정 구간·경계·원문 화살표를 강조하며, 빛 효과 끄기와 reduced-motion 설정을 지원합니다. 원문 PNG 비교 팝업도 유지합니다.
+
+### 회사 PC에서 이어서 개발하기
+
+OpenAI 사이트나 API에 접속하지 않아도 앱 실행·수정이 가능합니다. GitHub 저장소는 private이므로 권한 있는 계정으로 clone하거나 Code → Download ZIP으로 내려받으세요.
+
+1. 전체 저장소를 내려받습니다.
+2. `dist/index.html`을 브라우저에서 열거나, Windows에서 `py -m http.server 8080 --directory dist` 실행 후 `http://localhost:8080`에 접속합니다.
+3. 사내 웹서버에는 `dist/` 전체를 올립니다. 학습 본문은 `dist/content.js`, 화면·파형 동작은 `dist/app.js`와 `dist/figure6.js`, 디자인은 `dist/style.css`에서 수정합니다.
+
+앱 실행에는 npm 설치, 빌드, API 키, OpenAI 로그인이 필요하지 않습니다. 원문 PDF 링크만 외부 사이트로 연결됩니다. Figure 6 원문 이미지·벡터는 저장소에 포함됩니다. 진도·메모는 브라우저별로 저장되어 자동으로 옮겨지지 않습니다. 필요하면 기존 앱에서 JSON으로 내보내 백업하세요.

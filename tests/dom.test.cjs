@@ -35,6 +35,22 @@ $('#f6-original-close').click();assert.equal($('#f6-original-dialog').open,false
 $('#f6-original').click();assert.equal($('#f6-original-zoom').getAttribute('aria-pressed'),'false');
 $('#f6-original-dialog').dispatchEvent(new w.KeyboardEvent('keydown',{key:'Escape'}));assert.equal($('#f6-original-dialog').open,false);
 
+// Every original S/P marker and its corresponding DAT transition explain the condition.
+assert.equal(w.document.querySelectorAll('[data-event]').length,4);
+for(const id of ['stop-left','start','restart','stop-right']){
+ const g=$('[data-event="'+id+'"]');g.dispatchEvent(new w.Event('pointerenter'));
+ assert.equal(g.getAttribute('aria-pressed'),'true');assert.equal($('#f6-tooltip').hidden,false);
+ assert.match($('#f6-detail').textContent,id.startsWith('stop')?/LOW → HIGH/:/HIGH → LOW/);
+ assert.match($('#f6-detail').textContent,/HIGH 유지/);assert.equal($('#f6-detail a[href="#link"]').textContent,'04장 · 비트·START·ACK →');
+ assert.equal($('#f6-to-lab').hidden,true);assert.equal(w.document.querySelectorAll('[data-range][visibility=visible]').length,0);
+ assert.equal(w.document.querySelectorAll('.f6-event-active').length,2);
+ g.dispatchEvent(new w.MouseEvent('click',{bubbles:true}));assert.equal($('#f6-tooltip').hidden,true);
+}
+$('[data-event-pick="restart"]').click();assert.match($('#f6-detail').textContent,/STOP 없이/);assert.match($('#f6-detail').textContent,/원문 Figure 6은 이 위치도 S/);
+$('#f6-speed').selectedIndex=1;$('#f6-speed').dispatchEvent(new w.Event('change'));assert.match($('#f6-detail').textContent,/Repeated START/);
+$('[data-related="tSU:STA"]').click();assert.match($('#f6-detail').textContent,/tSU:STA/);assert.equal($('#f6-to-lab').hidden,false);assert.equal(w.document.querySelectorAll('.f6-event-active').length,0);
+$('[data-event="start"]').dispatchEvent(new w.KeyboardEvent('keydown',{key:'Enter'}));assert.match($('#f6-detail').textContent,/START · 전송 시작/);
+$('[data-pick="tLOW"]').click();assert.equal(w.document.querySelectorAll('[data-event][aria-pressed=true]').length,0);
 $('#theme').click();assert.equal(w.document.body.classList.contains('dark'),true);page('physical');assert.equal(w.document.body.classList.contains('dark'),true);page('timing');
 $('#timing-fail').click();assert.match($('#timing-explain').textContent,/FAIL/);$('#timing-reset').click();assert.match($('#timing-explain').textContent,/PASS/);
 for(const v of ['400 kHz','1 MHz']){$('#speed').value=v;$('#speed').dispatchEvent(new w.Event('change'));assert.match($('#timing-explain').textContent,/PASS/);}
