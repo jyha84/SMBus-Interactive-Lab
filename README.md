@@ -8,6 +8,17 @@ SMBus 3.3 전체 장과 부록을 학습하는 한국어 인터랙티브 웹앱�
 - 기준: [SMBus 3.3, 12 May 2024](https://www.smbus.org/specs/SMBus_3_3_20240512.pdf)
 - 학습 구성 참고: [DigitalBook](https://digitalbook.euiyun.com/) — geniuskey 및 DigitalBook 기여자. [euiyun books 전체 시리즈](https://books.euiyun.com/). 해당 사이트의 코드·본문·그림은 복제하지 않았습니다.
 
+## 1.2 검증 기록 화면 업데이트
+
+- 첫 화면에 이해하기 / 파형 읽기 / 검증하기 목적별 진입점 추가
+- 25개 검증 항목마다 시험 방법·판정 시 확인 사항·원문 및 학습 챕터 링크
+- 미실행 / PASS / FAIL / 보류 / N/A, 측정값·자극 조건·증거 파일명·이슈·판정 근거 기록
+- 검증 환경 기록, 범주·판정·내용 검색, Excel용 UTF-8 BOM CSV 및 JSON 내보내기
+- 새 JSON과 기존 체크리스트 JSON 병합 가져오기. 가져온 항목·환경은 덮어쓰고 미포함 항목·학습 노트·진도는 유지
+- 기존 25개 체크 표시는 검토 완료로 보존하며 PASS로 자동 변환하지 않음
+- PEC 오류 상태/IRQ의 지원·mask·clear는 IP 매뉴얼 기준으로 확인하도록 명시
+- 환경별 기록은 내보내기로 보관. 서버 업로드·첨부 파일 저장·자동 장비 제어·자동 합격 판정은 제공하지 않음
+
 ## 1.1 업데이트
 
 - 항상 보이는 이전/다음 장과 챕터 선택 메뉴, 검색 가능한 전체 목차 팝업
@@ -50,6 +61,7 @@ python3 -m http.server 8080 --directory dist
 - `dist/content.js`: 한국어 학습 설명, 절·페이지 출처, 36개 원문 범위 매핑
 - `dist/figure6.js`: 원문 좌표의 벡터 파형, 선택 구간 강조와 파라미터 검사
 - `dist/navigation.js`: 고정 챕터 이동과 목차 대화상자
+- `dist/verification.js`: 검증 절차·판정·환경 기록, JSON 병합 및 CSV 내보내기
 - `dist/app.js`: 탐색, SVG 파형, 실험, localStorage
 - `dist/style.css`: 반응형·다크 테마
 - `tests/engine.test.cjs`: 표준 CRC check vector, 전체 형식, Block 경계, timing 경계

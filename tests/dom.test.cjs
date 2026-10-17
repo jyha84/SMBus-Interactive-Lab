@@ -3,7 +3,7 @@ const {JSDOM,VirtualConsole}=require(process.env.JSDOM_PATH||'jsdom');
 const root=path.resolve(__dirname,'../dist'),errors=[];
 const v=new VirtualConsole();v.on('jsdomError',e=>errors.push(e));
 const dom=new JSDOM(fs.readFileSync(root+'/index.html','utf8'),{url:'https://example.test/',runScripts:'outside-only',virtualConsole:v});
-const w=dom.window;w.scrollTo=()=>{};w.eval(['engine.js','content.js','figure6-vector.js','figure6.js','navigation.js','app.js'].map(f=>fs.readFileSync(root+'/'+f,'utf8')).join('\n'));
+const w=dom.window;w.scrollTo=()=>{};w.eval(['engine.js','content.js','figure6-vector.js','figure6.js','navigation.js','verification.js','app.js'].map(f=>fs.readFileSync(root+'/'+f,'utf8')).join('\n'));
 const $=s=>w.document.querySelector(s);const input=(s,v)=>{$(s).value=v;$(s).dispatchEvent(new w.Event('input',{bubbles:true}));};
 function page(id){w.history.replaceState({},'',`#${id}`);w.dispatchEvent(new w.HashChangeEvent('hashchange'));assert.ok($('#main').textContent.length>400);}
 for(const id of ['intro','physical','timing','link','arbitration','protocols','pec','address','arp','signals','compatibility','verification','reference'])page(id);
