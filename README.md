@@ -6,7 +6,7 @@ SMBus 3.3 전체 장과 부록을 학습하는 한국어 인터랙티브 웹앱�
 - 소스: https://github.com/jyha84/SMBus-Interactive-Lab (공개)
 - 기존 Sites: https://smbus-timing-lab.bzbone.chatgpt.site (소유자 전용)
 - 기준: [SMBus 3.3, 12 May 2024](https://www.smbus.org/specs/SMBus_3_3_20240512.pdf)
-- 학습 구성 참고: [DigitalBook](https://digitalbook.euiyun.com/). 코드를 복제하지 않았습니다.
+- 학습 구성 참고: [DigitalBook](https://digitalbook.euiyun.com/) — geniuskey 및 DigitalBook 기여자. [euiyun books 전체 시리즈](https://books.euiyun.com/). 해당 사이트의 코드·본문·그림은 복제하지 않았습니다.
 
 ## 1.1 업데이트
 
@@ -67,7 +67,7 @@ Node.js 24+ 권장. `npm install`은 DOM 테스트용 jsdom만 설치합니다. 
 
 - 계산·구조 테스트 통과: 16개 형식 각각 PEC on/off, 0/1/32/255 Block, CRC `123456789 → F4`, Read Word PEC `16 09 17 34 12 → B8`, 타이밍 경계, 중재와 RC.
 - jsdom에서 전 챕터 및 핵심 조작·저장 복원 검증. 실제 브라우저의 픽셀 단위 시각 QA는 수행하지 못했습니다.
-- SVG는 측정 관계를 보여주는 개략도입니다. RC는 1차 근사, timing PASS는 개별 스칼라 한계 비교입니다. 공식 compliance suite나 아날로그 시뮬레이터가 아닙니다.
+- Figure 6은 원문 경로를 추출한 벡터이며, 나머지 학습 파형 SVG는 측정 관계를 보여주는 개략도입니다. RC는 1차 근사, timing PASS는 개별 스칼라 한계 비교입니다. 공식 compliance suite나 아날로그 시뮬레이터가 아닙니다.
 - ARP는 동적 비영속 장치 3개 예제이며, 모든 원문 분기와 장치 기능은 구현하지 않습니다. 예외는 본문·원문 링크를 참고하세요.
 - 원문의 ACK 그림 누락, ARA 방향 요약, AR flag 서술 등 상충·오탈자 가능성이 있는 부분은 본문 명령 정의/표를 기준으로 구현했습니다. ARA는 Read=1, 일반 Get UDID는 AR=0이 참여합니다.
 - SMBus 3.3 Table 8의 version code는 3.2까지 명시합니다. 3.3.1에서 보완되었으나 이 앱은 요청한 3.3을 기준으로 유지하고 후속판을 별도 링크합니다.
@@ -78,7 +78,13 @@ Node.js 24+ 권장. `npm install`은 DOM 테스트용 jsdom만 설치합니다. 
 
 노트·체크리스트·진도는 현재 origin의 localStorage에만 저장되며 서버 전송/기기 동기화는 없습니다. 브라우저 데이터 삭제 시 사라지므로 검증 장에서 JSON으로 내보낼 수 있습니다.
 
-규격 PDF는 저장소에 재배포하지 않고 공식 문서로 링크합니다. 원 규격의 권리는 System Management Interface Forum, Inc.에 있습니다. 역사 보충은 공식 SMBus 3.1 / 3.2 / 3.3.1 Appendix D를 확인했습니다. 새로운 학습 코드·해설·SVG는 본 프로젝트에서 작성했습니다.
+규격 PDF 전체는 저장소에 재배포하지 않고 공식 문서로 링크합니다. 역사 보충은 공식 SMBus 3.1 / 3.2 / 3.3.1 Appendix D를 확인했습니다. 앱 코드·학습 해설과 Figure 6 이외의 학습 파형은 본 프로젝트에서 작성했습니다.
+
+- **학습 방식 참고:** DigitalBook — geniuskey 및 DigitalBook 기여자. [원 사이트](https://digitalbook.euiyun.com/) · [라이선스 안내](https://digitalbook.euiyun.com/LICENSE.md). 참고 사이트는 실행 코드에 MIT, 교육 콘텐츠에 CC BY 4.0을 적용합니다. 이 프로젝트는 학습 구성 아이디어를 참고했으며 해당 사이트의 코드·본문·그림을 복제하지 않았습니다. 이 안내는 본 앱 전체에 MIT 또는 CC BY 라이선스를 부여한다는 뜻이 아닙니다.
+- **Figure 6 원자료:** System Management Bus (SMBus) Specification, Version 3.3, 12 May 2024, Figure 6, p.18. © 2024 System Management Interface Forum, Inc. — All Rights Reserved. [공식 PDF](https://www.smbus.org/specs/SMBus_3_3_20240512.pdf#page=18).
+- **포함 자료 및 변경:** `dist/assets/smbus-3.3-figure6.png`는 원문 그림 영역 발췌이며, `dist/assets/smbus-3.3-figure6.svg`와 `dist/figure6-vector.js`는 원문 경로·글자 윤곽의 추출 결과입니다. 앱은 색상·선택 강조·설명·조작 기능을 추가했습니다. 원 도표의 권리는 원 저작권자에게 있습니다.
+- **이용 조건 확인 범위:** SMBus 3.3 PDF pp.1–2는 All Rights Reserved와 면책 조항을 명시하며, 확인한 고지에는 도표 재배포를 일반적으로 허락하는 라이선스가 없습니다. 이 프로젝트는 별도 이용 허락을 취득했다고 주장하지 않습니다. 출처 표시는 이용 허락을 대신하지 않으며, 원 도표를 자유 재사용 가능한 자료로 취급하지 마세요.
+- 이 앱은 DigitalBook 저자 또는 SMIF의 공식 제작·후원·인증을 받은 프로젝트가 아닙니다.
 
 ### Figure 6 벡터 재생성
 
