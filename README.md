@@ -2,8 +2,9 @@
 
 SMBus 3.3 전체 장과 부록을 학습하는 한국어 인터랙티브 웹앱입니다.
 
-- 실행: https://smbus-timing-lab.bzbone.chatgpt.site (소유자 전용)
-- 소스: https://github.com/jyha84/SMBus-Interactive-Lab (private)
+- 실행: https://jyha84.github.io/SMBus-Interactive-Lab/ (공개 GitHub Pages)
+- 소스: https://github.com/jyha84/SMBus-Interactive-Lab (공개)
+- 기존 Sites: https://smbus-timing-lab.bzbone.chatgpt.site (소유자 전용)
 - 기준: [SMBus 3.3, 12 May 2024](https://www.smbus.org/specs/SMBus_3_3_20240512.pdf)
 - 학습 구성 참고: [DigitalBook](https://digitalbook.euiyun.com/). 코드를 복제하지 않았습니다.
 
@@ -39,7 +40,9 @@ SMBus 3.3 전체 장과 부록을 학습하는 한국어 인터랙티브 웹앱�
 python3 -m http.server 8080 --directory dist
 ```
 
-배포 대상은 `dist/`입니다. 소스와 배포 파일이 동일합니다. `.openai/hosting.json`은 기존 Sites 식별자와 정적 디렉터리 설정이며 인증정보를 포함하지 않습니다. 같은 사이트를 수정할 때 식별자를 보존하세요. GitHub 저장소 공개 여부와 Sites 접속 권한은 별도입니다. 현재 둘 다 비공개이며 GitHub Pages는 활성화하지 않았습니다.
+배포 대상은 `dist/`입니다. 소스와 배포 파일이 동일합니다. `main`의 `dist/` 또는 `.github/workflows/pages.yml`을 변경하면 GitHub Actions가 GitHub Pages에 자동 배포합니다. Actions의 **Deploy GitHub Pages → Run workflow**로 수동 배포할 수도 있습니다. 앱 실행에는 OpenAI 접속이 필요하지 않습니다.
+
+`.openai/hosting.json`은 기존 Sites 식별자와 정적 디렉터리 설정이며 인증정보를 포함하지 않습니다. 같은 사이트를 수정할 때 식별자를 보존하세요. GitHub 저장소와 GitHub Pages는 공개이며 기존 Sites 접속 권한은 별도로 유지합니다.
 
 ## 구조
 
@@ -85,7 +88,7 @@ Node.js 24+ 권장. `npm install`은 DOM 테스트용 jsdom만 설치합니다. 
 
 ### 회사 PC에서 이어서 개발하기
 
-OpenAI 사이트나 API에 접속하지 않아도 앱 실행·수정이 가능합니다. GitHub 저장소는 private이므로 권한 있는 계정으로 clone하거나 Code → Download ZIP으로 내려받으세요.
+OpenAI 사이트나 API에 접속하지 않아도 앱 실행·수정이 가능합니다. 공개 GitHub 저장소를 clone하거나 Code → Download ZIP으로 내려받으세요. 읽기·다운로드에는 GitHub 로그인이 필요하지 않습니다. 변경 사항 업로드는 쓰기 권한이 있는 계정으로 합니다.
 
 1. 전체 저장소를 내려받습니다.
 2. `dist/index.html`을 브라우저에서 열거나, Windows에서 `py -m http.server 8080 --directory dist` 실행 후 `http://localhost:8080`에 접속합니다.
