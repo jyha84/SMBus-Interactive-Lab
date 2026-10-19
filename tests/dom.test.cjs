@@ -8,6 +8,19 @@ const $=s=>w.document.querySelector(s);const input=(s,v)=>{$(s).value=v;$(s).dis
 function page(id){w.history.replaceState({},'',`#${id}`);w.dispatchEvent(new w.HashChangeEvent('hashchange'));assert.ok($('#main').textContent.length>400);}
 for(const id of ['intro','physical','timing','link','arbitration','protocols','pec','address','arp','signals','compatibility','verification','reference'])page(id);
 page('physical');$('#drain-a').click();assert.match($('#drain-result').textContent,/LOW/);input('#resistor','4400');assert.match($('#rc-result').textContent,/ns/);
+// Every output/pull-up combination, including floating without a pull-up.
+$('#drain-reset').click();
+for(const pullup of [true,false])for(const a of [false,true])for(const b of [false,true]){
+ $('#drain-reset').click();if(!pullup)$('#drain-pullup').click();if(a)$('#drain-a').click();if(b)$('#drain-b').click();
+ const state=a||b?'LOW':pullup?'HIGH':'FLOATING';
+ assert.ok($('#drain-result').textContent.includes(state));
+ assert.ok($('#drain-circuit svg').getAttribute('aria-label').includes(state));
+ assert.equal($('#drain-a').getAttribute('aria-pressed'),String(a));
+ assert.equal($('#drain-pullup').getAttribute('aria-pressed'),String(pullup));
+ assert.equal(!!$('.od-current'),pullup&&(a||b));
+ assert.equal($('#drain-truth').textContent.includes('▶ 현재'),pullup);
+}
+$('#drain-reset').click();assert.match($('#drain-result').textContent,/HIGH/);
 page('timing');
 assert.equal($('#chapter-select').value,'timing');
 assert.equal(w.document.querySelectorAll('.f6-target.selected').length,0);

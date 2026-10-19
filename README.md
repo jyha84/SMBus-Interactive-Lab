@@ -8,6 +8,14 @@ SMBus 3.3 전체 장과 부록을 학습하는 한국어 인터랙티브 웹앱�
 - 기준: [SMBus 3.3, 12 May 2024](https://www.smbus.org/specs/SMBus_3_3_20240512.pdf)
 - 학습 구성 참고: [DigitalBook](https://digitalbook.euiyun.com/) — geniuskey 및 DigitalBook 기여자. [euiyun books 전체 시리즈](https://books.euiyun.com/). 해당 사이트의 코드·본문·그림은 복제하지 않았습니다.
 
+## Open-drain 설명 보강
+
+- 2장에 NMOS 출력의 LOW/Z 동작, high impedance와 HIGH의 차이, pull-up과 전류 경로를 설명
+- 두 장치의 출력 스위치와 pull-up 유무를 조작하는 회로 개념도 및 진리표
+- 모든 출력 해제 + pull-up 제거 시 HIGH 대신 불확정 상태 표시
+- Push-pull 비교, ACK·중재·clock stretching의 연결, R/C와 상승 시간·sink 전류의 관계 설명
+- 기존 RC 실험, 다크 모드, 검증 기록 유지. 회로 그림은 새로 작성한 스위치 등가 개념도
+
 ## 1.2 검증 기록 화면 업데이트
 
 - 첫 화면에 이해하기 / 파형 읽기 / 검증하기 목적별 진입점 추가
